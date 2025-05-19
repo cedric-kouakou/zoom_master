@@ -2,10 +2,19 @@ services:
   - type: web
     name: videochat-app
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: |
+      npm install
+      cd frontend && npm install
+      export NODE_OPTIONS=--openssl-legacy-provider
+      npm run build
+      cd ..
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
+      - key: NODE_OPTIONS
+        value: "--openssl-legacy-provider"
